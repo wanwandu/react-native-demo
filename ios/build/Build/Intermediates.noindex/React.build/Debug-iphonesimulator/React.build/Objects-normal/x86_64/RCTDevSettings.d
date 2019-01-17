@@ -1,0 +1,23 @@
+dependencies: \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Modules/RCTDevSettings.mm \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Modules/RCTDevSettings.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTBridgeModule.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTFrameUpdate.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTInvalidating.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JavaScriptCore.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JSCWrapper.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTBridge+Private.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTEventDispatcher.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Modules/RCTJSCSamplingProfiler.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTLog.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Profiler/RCTProfile.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/DevSupport/RCTPackagerClient.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/DevSupport/RCTPackagerConnection.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/DevSupport/RCTInspectorDevServerHelper.h \
+  /Users/duguanxin/Sites/reactNative/demo/Github_RN/node_modules/react-native/React/Inspector/RCTInspectorPackagerConnection.h
