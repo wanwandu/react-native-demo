@@ -10,11 +10,6 @@ const StatusBarShape = {//设置状态栏所接受的属性
   hidden: PropTypes.bool,
   backgroundColor: PropTypes.string,
 };
-const StatusBarShape = {//设置状态栏所接受的属性
-  barStyle: PropTypes.oneOf(['light-content', 'default',]),
-  hidden: PropTypes.bool,
-  backgroundColor: PropTypes.string,
-};
 export default class NavigationBar extends Component{
   //提供属性的类型检查
   static propTypes = {
