@@ -14,7 +14,6 @@ import {
 }  from 'react-navigation';
 import NavigationUtil from '../navigator/NavigationUtil';
 import DynamicTabNavigator from '../navigator/DynamicTabNavigator';
-
 type Props = {};
 import PopularPage from './PopularPage' ;
 import FavoritePage from './FavoritePage';

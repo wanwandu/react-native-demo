@@ -6,6 +6,9 @@ import {
 import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
 import DetailPage from '../page/DetailPage'
+import FetchDemoPage from '../page/FetchDemoPage'
+import AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
+import DataStoreDemoPage from '../page/DataStoreDemoPage'
 import {connect} from 'react-redux'
 import {reduxifyNavigator, createReactNavigationReduxMiddleware} from 'react-navigation-redux-helpers'
 // import React from 'react'
@@ -29,9 +32,26 @@ const MainNavigator=createStackNavigator({
   DetailPage:{
     screen:DetailPage,
     navigationOptions:{
-      header:null,
+      header:null
     }
-  }
+  },
+  FetchDemoPage:{
+    screen:FetchDemoPage,
+    navigationOptions:{
+      title: 'fdtch'
+    }
+  },
+  AsyncStorageDemoPage:{
+    screen:AsyncStorageDemoPage,
+    navigationOptions:{
+      title: 'AsyncStorageDemo'
+    }
+  },
+  DataStoreDemoPage:{
+    screen:DataStoreDemoPage,
+    navigationOptions:{
+    }
+  },
 })
 export const RootNavigator = createAppContainer(createSwitchNavigator({
   Init: InitNavigator,
@@ -42,6 +62,7 @@ export const RootNavigator = createAppContainer(createSwitchNavigator({
     header:null
   }
 }));
+// 1.初始化react-navigation与redux的中间件
 export const middleware = createReactNavigationReduxMiddleware(
   'root',
   state => state.nav
