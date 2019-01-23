@@ -41,7 +41,7 @@ export default function onAction(state = defaultState, action) {
           hideLoadingMore: true,
         }
       };
-    case Types.LOAD_POPULAR_FAIL://下拉刷新失败
+    case Types.POPULAR_REFRESH_FAIL://下拉刷新失败
       return {
         ...state,
         [action.storeName]: {

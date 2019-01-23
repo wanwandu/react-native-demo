@@ -89,6 +89,7 @@ class PopularTab extends Component<Props> {
     const store = this._store();
     const url = this.genFetchUrl(this.storeName);
     if (loadMore) {
+      console.log(99999999)
       onLoadMorePopular(this.storeName, ++store.pageIndex, pageSize, store.items, callback => {
         this.refs.toast.show('没有更多了');
       })
@@ -105,6 +106,7 @@ class PopularTab extends Component<Props> {
   _store() {
     const {popular} = this.props;
     let store = popular[this.storeName];
+    console.log(6666, store)
     if (!store) {
       store = {
         items: [],
