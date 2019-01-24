@@ -9,7 +9,7 @@ export default class TrendingItem extends Component {
     const {item} = this.props;
     return (
       <TouchableOpacity
-        onPress={()=>this.props.onSelect}
+        onPress={()=>this.props.onSelect()}
       >
         <View style={styles.cell_container}>
           <Text style={styles.title}>

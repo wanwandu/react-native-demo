@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, Text, View, Button, RefreshControl, ActivityIndicator, TouchableOpacity, DeviceInfo} from 'react-native';
+import {FlatList, StyleSheet, Text, View, Button, RefreshControl, ActivityIndicator, TouchableOpacity, DeviceInfo, DeviceEventEmitter} from 'react-native';
 import Toast from 'react-native-easy-toast'
 import {connect} from 'react-redux' // connect 让组件的store做关联
 import actions from '../action/index'
@@ -21,8 +21,8 @@ import {
 }  from 'react-navigation';
 import NavigationUtil from '../navigator/NavigationUtil';
 const URL = 'https://github.com/trending/';
-const QUERY_STR = '?since=daily';
 const THEME_COLOR = '#678'
+const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE'
 
 type Props = {};
 export default class TrendingPage extends Component<Props> {
@@ -37,7 +37,7 @@ export default class TrendingPage extends Component<Props> {
     const tabs={};
     this.tabNames.forEach((item, index) => {
       tabs[`tab${index}`] = {
-        screen: props => <TrendingTabPage {...props} tabLabel={item}/>,
+        screen: props => <TrendingTabPage {...props} timeSpan={this.state.timeSpan} tabLabel={item}/>,
         navigationOptions:{
           title: item
         }
@@ -71,6 +71,7 @@ export default class TrendingPage extends Component<Props> {
     this.setState({
       timeSpan: tab
     })
+    DeviceEventEmitter.emit(EVENT_TYPE_TIME_SPAN_CHANGE, tab);
   }
   renderTrendingDialog() {
     return <TrendingDialog
@@ -78,6 +79,26 @@ export default class TrendingPage extends Component<Props> {
       onSelect={tab=>this.onSelectTimeSpan(tab)}
     ></TrendingDialog>
 
+  }
+  _tabNav() {
+    if (!this.tabNav) {
+      this.tabNav= createAppContainer(createMaterialTopTabNavigator(
+        this._genTabs(),{
+          tabBarOptions:{
+            tabStyles:styles.tabStyle,
+            upperCaseLabel: false,
+            scrollEnabled: true,
+            style:{
+              backgroundColor:'#678'
+            },
+            indicatorStyle: styles.indicatorStyle, // 标签指示器样式
+            labelStyle: styles.labelStyle
+
+          }
+        }
+      ));
+    }
+    return this.tabNav;
   }
   render() {
     let statusBar = {
@@ -88,21 +109,7 @@ export default class TrendingPage extends Component<Props> {
       statusBar={statusBar}
       style={{backgroundColor: THEME_COLOR}}
     />
-    const TabNavigator = createAppContainer(createMaterialTopTabNavigator(
-      this._genTabs(),{
-        tabBarOptions:{
-          tabStyles:styles.tabStyle,
-          upperCaseLabel: false,
-          scrollEnabled: true,
-          style:{
-            backgroundColor:'#678'
-          },
-          indicatorStyle: styles.indicatorStyle, // 标签指示器样式
-          labelStyle: styles.labelStyle
-
-        }
-      }
-    ));
+    const TabNavigator = this._tabNav();
     return (
       <View style={{flex: 1,marginTop: 40}}>
         {navigationBar}
@@ -116,18 +123,29 @@ const pageSize = 10;//设为常量，防止修改
 class TrendingTab extends Component<Props> {
   constructor(props) {
     super (props);
-    const {tabLabel} = this.props;
+    const {tabLabel, timeSpan} = this.props;
     this.storeName = tabLabel;
+    this.timeSpan = timeSpan
     console.log(999, this.storeName)
   }
 
   componentDidMount() {
     this.loadData();
+    this.timeSpanChangeListener = DeviceEventEmitter.addListener(EVENT_TYPE_TIME_SPAN_CHANGE, (timeSpan) =>{
+      this.timeSpan = timeSpan;
+      this.loadData();
+    })
+  }
+  componentWillUnmount(){
+    if(this.timeSpanChangeListener) {
+      this.timeSpanChangeListener.remove()
+    }
   }
   loadData(loadMore) {
     const {onRefreshTrending, onLoadMoreTrending} = this.props;
     const store = this._store();
     const url = this.genFetchUrl(this.storeName);
+    console.log('url-------->',url)
     if (loadMore) {
       onLoadMoreTrending(this.storeName, ++store.pageIndex, pageSize, store.items, callback => {
         this.refs.toast.show('没有更多了');
@@ -156,13 +174,17 @@ class TrendingTab extends Component<Props> {
     return store;
   }
   genFetchUrl(key) {
-    return URL + key + QUERY_STR;
+    return URL + key + '?' +  this.timeSpan.searchText;
   }
   renderItem(data) {
     const item = data.item;
-    return <TrendingItem
+    return <TrendingItem     l
       item={item}
-      onSelect={()=>{}}
+      onSelect={()=>{
+        NavigationUtil.goPage({
+          projectModel: item
+        }, 'DetailPage')
+      }}
     />
 
   }

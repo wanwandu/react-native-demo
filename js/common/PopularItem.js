@@ -10,7 +10,7 @@ export default class PopularItem extends Component {
     if (!item || !item.owner) return null;
     return (
       <TouchableOpacity
-        onPress={()=>this.props.onSelect}
+        onPress={()=> this.props.onSelect()}
       >
         <View style={styles.cell_container}>
           <Text style={styles.title}>
