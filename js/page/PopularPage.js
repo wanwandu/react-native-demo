@@ -23,61 +23,76 @@ import { FLAG_STORAGE } from '../expand/dao/DataStore'
 import FavoriteUtil from '../util/FavoriteUtil'
 import EventBus from 'react-native-event-bus'
 import EventTypes from '../util/EventTypes'
+import { FLAG_LANGUAGE } from '../expand/dao/LanguageDao'
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
-const THEME_COLOR = '#678'
 const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular);
 
 type Props = {};
-export default class PopularPage extends Component<Props> {
+class PopularPage extends Component<Props> {
   constructor(props){
     super(props);
-    this.tabNames = ['Jave', 'Android', 'IOS', 'React', 'PHP']
+    const {onLoadLanguage} = this.props;
+    onLoadLanguage(FLAG_LANGUAGE.flag_key);
   }
   _genTabs(){
     const tabs={};
-    this.tabNames.forEach((item, index) => {
-      tabs[`tab${index}`] = {
-        screen: props => <PopularTabPage {...props} tabLabel={item}/>,
-        navigationOptions:{
-          title: item
+    const {keys, theme} = this.props;
+    keys.forEach((item, index) => {
+      if (item.checked) {
+        tabs[`tab${index}`] = {
+          screen: props => <PopularTabPage {...props} tabLabel={item.name} theme={theme}/>,
+          navigationOptions: {
+            title: item.name
+          }
         }
       }
     })
     return tabs;
   }
   render() {
+    const {keys, theme} = this.props;
     let statusBar = {
-      backgroundColor: THEME_COLOR
+      backgroundColor: theme.themeColor
     }
     let navigationBar = <NavigationBar
       title={'最热'}
       statusBar={statusBar}
-      style={{backgroundColor: THEME_COLOR}}
+      style={theme.styles.navBar}
     />
-    const TabNavigator = createAppContainer(createMaterialTopTabNavigator(
+    const TabNavigator = keys.length ?  createAppContainer(createMaterialTopTabNavigator(
       this._genTabs(),{
         tabBarOptions:{
           tabStyles:styles.tabStyle,
           upperCaseLabel: false,
           scrollEnabled: true,
           style:{
-            backgroundColor:'#678'
+            backgroundColor:theme.themeColor,
+            // height: 30,
           },
           indicatorStyle: styles.indicatorStyle, // 标签指示器样式
           labelStyle: styles.labelStyle
-
-        }
+        },
+        lazy: true
       }
-    ));
+    )) : null;
     return (
       <View style={{flex: 1,marginTop: 40}}>
         {navigationBar}
-        <TabNavigator/>
+        {TabNavigator && <TabNavigator/>}
       </View>
     );
   }
 }
+const mapPopularStateToProps = state => ({
+  keys: state.language.keys,
+  theme: state.theme.theme,
+});
+const mapPopularDispatchToProps = dispatch => ({
+  onLoadLanguage: (flage) => dispatch(actions.onLoadLanguage(flage))
+});
+export default connect(mapPopularStateToProps, mapPopularDispatchToProps)(PopularPage);
+
 const pageSize = 10;//设为常量，防止修改
 class PopularTab extends Component<Props> {
   constructor(props) {
@@ -142,10 +157,13 @@ class PopularTab extends Component<Props> {
   }
   renderItem(data) {
     const item = data.item;
+    const {theme} = this.props
     return <PopularItem
       projectModel={item}
+      theme = {theme}
       onSelect={(callback)=>{
         NavigationUtil.goPage({
+          theme,
           projectModel: item,
           flag: FLAG_STORAGE.flag_popular,
           callback
@@ -166,6 +184,7 @@ class PopularTab extends Component<Props> {
   }
   render() {
     let store = this._store();
+    const {theme} = this.props
     if (!store) {
       store = {
         items: [],
@@ -181,11 +200,11 @@ class PopularTab extends Component<Props> {
           refreshControl={
             <RefreshControl
               title={'Loading'}
-              titleColor={THEME_COLOR}
-              colors={[THEME_COLOR]}
+              titleColor={theme.themeColor}
+              colors={[theme.themeColor]}
               refreshing={store.isLoading}
               onRefresh={() => this.loadData()}
-              tintColor={THEME_COLOR}
+              tintColor={theme.themeColor}
             />
           }
           ListFooterComponent={() => this.genIndicator()}

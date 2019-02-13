@@ -6,7 +6,12 @@ import {
 import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
 import DetailPage from '../page/DetailPage'
+import WebViewPage from '../page/WebViewPage'
+import AboutPage from '../page/about/AboutPage'
+import AboutMePage from '../page/about/AboutMePage'
 import FetchDemoPage from '../page/FetchDemoPage'
+import CustomKeyPage from '../page/CustomKeyPage'
+import SortKeyPage from '../page/SortKeyPage'
 import AsyncStorageDemoPage from '../page/AsyncStorageDemoPage'
 import DataStoreDemoPage from '../page/DataStoreDemoPage'
 import {connect} from 'react-redux'
@@ -31,6 +36,36 @@ const MainNavigator=createStackNavigator({
   },
   DetailPage:{
     screen:DetailPage,
+    navigationOptions:{
+      header:null
+    }
+  },
+  WebViewPage:{
+    screen:WebViewPage,
+    navigationOptions:{
+      header:null
+    }
+  },
+  AboutPage:{
+    screen:AboutPage,
+    navigationOptions:{
+      header:null
+    }
+  },
+  AboutMePage:{
+    screen:AboutMePage,
+    navigationOptions:{
+      header:null
+    }
+  },
+  CustomKeyPage:{
+    screen:CustomKeyPage,
+    navigationOptions:{
+      header:null
+    }
+  },
+  SortKeyPage:{
+    screen:SortKeyPage,
     navigationOptions:{
       header:null
     }
