@@ -20,7 +20,7 @@ import Utils from '../util/Utils'
  * @param favoriteDao
  * @param params 其他参数
  */
-export function handleData (actionType, dispatch, storeName, data, pageSize, favoriteDao) {
+export function handleData (actionType, dispatch, storeName, data, pageSize, favoriteDao, params) {
   console.log('favoriteDao------>', favoriteDao)
   let fixItems = []
   if (data && data.data) {
@@ -37,7 +37,8 @@ export function handleData (actionType, dispatch, storeName, data, pageSize, fav
       items: fixItems,
       projectModels: projectModels,
       storeName,
-      pageIndex: 1
+      pageIndex: 1,
+      ...params
     })
   })
 
@@ -52,16 +53,15 @@ export function handleData (actionType, dispatch, storeName, data, pageSize, fav
  * @private
  */
 export async function _projectModels (showItems, favoriteDao, callback) {
+  console.log(1111111)
+  console.log(showItems, favoriteDao)
   let keys = []
   try {
     //获取收藏的key
-    console.log(55555555, showItems, favoriteDao)
     keys = await favoriteDao.getFavoriteKeys()
   } catch (e) {
     console.log(e)
   }
-  console.log('keys-------->')
-  console.log(keys)
   let projectModels = []
   for (let i = 0, len = showItems.length; i < len; i++) {
     projectModels.push(new ProjectModel(showItems[i], Utils.checkFavorite(showItems[i], keys)))
@@ -71,7 +71,6 @@ export async function _projectModels (showItems, favoriteDao, callback) {
 
 export const doCallBack = (callBack, object) => {
   if (typeof callBack === 'function') {
-    console.log('projectModels------>', object)
     callBack(object)
   }
 }
